@@ -1,0 +1,21 @@
+services:
+  web:
+    image: node:22
+    working_dir: /app/apps/main
+    volumes:
+      - ./:/app
+      # keep installed deps out of the bind mount so they survive & don't clash
+      - /app/apps/main/node_modules
+    ports:
+      - "3000:3000"
+    environment:
+      - BASE44_PUBLIC_HOST_SUFFIX=${BASE44_PUBLIC_HOST_SUFFIX}
+      - CHOKIDAR_USEPOLLING=true
+      - WATCHPACK_POLLING=true
+    command: sh -c "npm install --no-audit --no-fund && npm run dev"
+    healthcheck:
+      test: ["CMD", "curl", "-sf", "http://localhost:3000/"]
+      interval: 10s
+      timeout: 5s
+      retries: 12
+      start_period: 150s
