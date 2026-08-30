@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Epitome Traders</title>
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    :root{
+      --bg:#181c25;--card:#1e232d;--border:rgba(255,255,255,.1);
+      --fg:#fff;--muted:#8b8f96;--primary:#00c390;--primary-fg:#fff;
+    }
+    body{background:var(--bg);color:var(--fg);font-family:ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;min-height:100vh;display:flex;flex-direction:column}
+    .hero{position:relative;overflow:hidden;border-bottom:1px solid var(--border);text-align:center;padding:3rem 1.5rem}
+    .hero::before{content:"";position:absolute;inset:0;background:radial-gradient(60% 60% at 50% 0%,rgba(0,195,144,.18) 0%,transparent 70%);pointer-events:none}
+    .hero>*{position:relative}
+    .badge{display:inline-flex;align-items:center;gap:.5rem;border:1px solid var(--border);background:var(--card);border-radius:999px;padding:.25rem .75rem;font-size:.75rem;color:var(--muted);margin-bottom:1rem}
+    .badge .dot{width:.5rem;height:.5rem;border-radius:50%;background:var(--primary)}
+    h1{font-size:2rem;font-weight:700;letter-spacing:-.02em}
+    h1 .accent{color:var(--primary)}
+    .sub{color:var(--muted);max-width:30rem;margin:1rem auto 0;font-size:.95rem;line-height:1.5}
+    .grid{display:grid;gap:1rem;padding:2.5rem 1.5rem;max-width:56rem;margin:0 auto;flex:1}
+    @media(min-width:640px){.grid{grid-template-columns:1fr 1fr}}
+    .card{display:block;text-decoration:none;color:inherit;background:var(--card);border:1px solid var(--border);border-radius:.5rem;padding:1.5rem;transition:border-color .2s}
+    .card:hover{border-color:rgba(0,195,144,.4)}
+    .card .icon{display:inline-flex;align-items:center;justify-content:center;width:2.25rem;height:2.25rem;border-radius:.375rem;background:rgba(0,195,144,.1);color:var(--primary);margin-bottom:.75rem}
+    .card h2{font-size:1.1rem;font-weight:600}
+    .card p{color:var(--muted);font-size:.85rem;line-height:1.5;margin-top:.5rem}
+    .arrow{display:inline-block;margin-top:.75rem;font-size:.8rem;color:var(--primary);font-weight:600}
+    footer{border-top:1px solid var(--border);padding:1.5rem;text-align:center;font-size:.75rem;color:var(--muted)}
+  </style>
+</head>
+<body>
+  <section class="hero">
+    <span class="badge"><span class="dot"></span> Unified trading platform</span>
+    <h1>Epitome <span class="accent">Traders</span></h1>
+    <p class="sub">A comprehensive trading application combining Accumulators, Bot Builder, Digits, and Rise/Fall into a single, fast interface.</p>
+  </section>
+  <div class="grid">
+    <a class="card" href="/rise-fall/">
+      <span class="icon">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 17l5-5 4 4 6-7"/><path d="M3 21h18"/></svg>
+      </span>
+      <h2>Rise / Fall</h2>
+      <p>Predict whether the next tick will be higher or lower than the current price over a chosen duration.</p>
+      <span class="arrow">Open app &rarr;</span>
+    </a>
+    <a class="card" href="/accumulators/">
+      <span class="icon">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v20M2 12h20"/></svg>
+      </span>
+      <h2>Accumulators</h2>
+      <p>Build up payouts with consecutive correct calls on price movements, with growth that compounds per step.</p>
+      <span class="arrow">Open app &rarr;</span>
+    </a>
+    <a class="card" href="/digits/">
+      <span class="icon">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M9 9h6v6H9z"/></svg>
+      </span>
+      <h2>Digits</h2>
+      <p>Trade on the last digit of a tick — match, differ, over, or under — for quick, precise positions.</p>
+      <span class="arrow">Open app &rarr;</span>
+    </a>
+    <a class="card" href="/bot-builder/">
+      <span class="icon">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="16" rx="2"/><path d="M9 2v2M15 2v2M9 20v2M15 20v2M2 9h2M2 15h2M20 9h2M20 15h2"/></svg>
+      </span>
+      <h2>Bot Builder</h2>
+      <p>Compose, back-test, and deploy automated trading strategies block by block without writing code.</p>
+      <span class="arrow">Open app &rarr;</span>
+    </a>
+  </div>
+  <footer>&copy; 2026 Epitome Traders · Powered by Deriv</footer>
+</body>
+</html>

@@ -2,5 +2,16 @@
   "previewPort": 3000,
   "healthPath": "/",
   "startCommand": "docker compose -f docker-compose.base44.yml up -d",
-  "secrets": []
+  "secrets": [
+    {
+      "name": "NEXT_PUBLIC_DERIV_APP_ID",
+      "description": "Deriv application ID from the Deriv API dashboard. Default placeholder: 1089.",
+      "requiredAtBoot": false
+    },
+    {
+      "name": "NEXT_PUBLIC_DERIV_REDIRECT_URI",
+      "description": "OAuth redirect URI registered with Deriv. Placeholder set; real value needed for login.",
+      "requiredAtBoot": false
+    }
+  ]
 }

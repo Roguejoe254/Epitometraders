@@ -1,21 +1,109 @@
 services:
-  web:
-    image: node:22
-    working_dir: /app/apps/main
-    volumes:
-      - ./:/app
-      # keep installed deps out of the bind mount so they survive & don't clash
-      - /app/apps/main/node_modules
+  # ---------------------------------------------------------------- nginx
+  nginx:
+    image: nginx:alpine
     ports:
-      - "3000:3000"
+      - "3000:80"
+    volumes:
+      - ./proxy/nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./proxy/landing.html:/usr/share/nginx/html/index.html:ro
+    depends_on:
+      - rise-fall
+      - accumulators
+      - digits
+      - bot-builder
+    restart: unless-stopped
+
+  # ------------------------------------------------------- Rise / Fall
+  rise-fall:
+    image: node:22
+    working_dir: /app
+    volumes:
+      - ./apps/rise-fall:/app
+      - /app/node_modules
+    env_file:
+      - ./.env.base44-defaults
+      - /run/base44/app.env
     environment:
+      - NEXT_PUBLIC_BASE_PATH=/rise-fall
       - BASE44_PUBLIC_HOST_SUFFIX=${BASE44_PUBLIC_HOST_SUFFIX}
       - CHOKIDAR_USEPOLLING=true
       - WATCHPACK_POLLING=true
-    command: sh -c "npm install --no-audit --no-fund && npm run dev"
+    command: sh -c "npm install --no-audit --no-fund && npm run dev -- -p 3001 -H 0.0.0.0"
     healthcheck:
-      test: ["CMD", "curl", "-sf", "http://localhost:3000/"]
-      interval: 10s
+      test: ["CMD", "curl", "-sf", "http://localhost:3001/rise-fall/"]
+      interval: 15s
       timeout: 5s
-      retries: 12
-      start_period: 150s
+      retries: 10
+      start_period: 180s
+    restart: unless-stopped
+
+  # ------------------------------------------------------- Accumulators
+  accumulators:
+    image: node:22
+    working_dir: /app
+    volumes:
+      - ./apps/accumulators:/app
+      - /app/node_modules
+    env_file:
+      - ./.env.base44-defaults
+      - /run/base44/app.env
+    environment:
+      - NEXT_PUBLIC_BASE_PATH=/accumulators
+      - BASE44_PUBLIC_HOST_SUFFIX=${BASE44_PUBLIC_HOST_SUFFIX}
+      - CHOKIDAR_USEPOLLING=true
+      - WATCHPACK_POLLING=true
+    command: sh -c "npm install --no-audit --no-fund && npm run dev -- -p 3002 -H 0.0.0.0"
+    healthcheck:
+      test: ["CMD", "curl", "-sf", "http://localhost:3002/accumulators/"]
+      interval: 15s
+      timeout: 5s
+      retries: 10
+      start_period: 180s
+    restart: unless-stopped
+
+  # ------------------------------------------------------- Digits
+  digits:
+    image: node:22
+    working_dir: /app
+    volumes:
+      - ./apps/digits:/app
+      - /app/node_modules
+    env_file:
+      - ./.env.base44-defaults
+      - /run/base44/app.env
+    environment:
+      - NEXT_PUBLIC_BASE_PATH=/digits
+      - BASE44_PUBLIC_HOST_SUFFIX=${BASE44_PUBLIC_HOST_SUFFIX}
+      - CHOKIDAR_USEPOLLING=true
+      - WATCHPACK_POLLING=true
+    command: sh -c "npm install --no-audit --no-fund && npm run dev -- -p 3003 -H 0.0.0.0"
+    healthcheck:
+      test: ["CMD", "curl", "-sf", "http://localhost:3003/digits/"]
+      interval: 15s
+      timeout: 5s
+      retries: 10
+      start_period: 180s
+    restart: unless-stopped
+
+  # ------------------------------------------------------- Bot Builder
+  bot-builder:
+    image: node:22
+    working_dir: /app
+    volumes:
+      - ./apps/bot-builder:/app
+      - /app/node_modules
+    env_file:
+      - ./.env.base44-defaults
+      - /run/base44/app.env
+    environment:
+      - BASE44_PUBLIC_HOST_SUFFIX=${BASE44_PUBLIC_HOST_SUFFIX}
+      - CHOKIDAR_USEPOLLING=true
+    command: sh -c "npm install --no-audit --no-fund && npm run dev -- --host 0.0.0.0"
+    healthcheck:
+      test: ["CMD", "curl", "-sf", "http://localhost:4003/bot-builder/"]
+      interval: 15s
+      timeout: 5s
+      retries: 10
+      start_period: 180s
+    restart: unless-stopped
